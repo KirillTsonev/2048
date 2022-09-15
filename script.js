@@ -1,4 +1,4 @@
-const tiles = document.querySelectorAll(".wrapper__tile");
+let tiles = [...document.querySelectorAll(".wrapper__tile")];
 const outerTiles = document.querySelectorAll(".wrapper__tile-outer");
 
 const vertical1 = [...document.querySelectorAll(".vertical1")];
@@ -11,8 +11,39 @@ const horizontal2 = [...document.querySelectorAll(".horizontal2")];
 const horizontal3 = [...document.querySelectorAll(".horizontal3")];
 const horizontal4 = [...document.querySelectorAll(".horizontal4")];
 
-const highScore = document.querySelector(".highScore");
+const score = document.querySelector(".header__score");
+let scoreValue = 0;
+const highScore = document.querySelector(".header__highscore");
 let highScoreValue = 0;
+
+const newGame = document.querySelector(".header__button");
+
+let arrOne = [];
+let arrTwo = [];
+let arrThree = [];
+
+const confirmation = document.createElement("div");
+confirmation.classList.add("header__confirmation");
+confirmation.textContent = "Are you sure?";
+
+newGame.addEventListener("click", () => {
+    newGame.replaceWith(confirmation);
+    setTimeout(() => {
+        confirmation.replaceWith(newGame);
+    }, 2500);
+});
+
+confirmation.addEventListener("click", () => {
+    localStorage.removeItem("score");
+    scoreValue = 0;
+    score.textContent = scoreValue;
+    localStorage.removeItem("startPosition");
+    tiles.forEach(a => {
+        a.textContent = "";
+    });
+    firstInit();
+    confirmation.replaceWith(newGame);
+});
 
 function colors() {
     tiles.forEach(a => {
@@ -21,34 +52,34 @@ function colors() {
                 a.style.background = "";
                 break;
             case "2":
-                a.style.background = "#ff0000";
+                a.style.background = "#e05d7d";
                 break;
             case "4":
-                a.style.background = "#ff8d00";
+                a.style.background = "#ffa363";
                 break;
             case "8":
-                a.style.background = "#fff800";
+                a.style.background = "#fbe65a";
                 break;
             case "16":
-                a.style.background = "#75ff00";
+                a.style.background = "#c6f05d";
                 break;
             case "32":
-                a.style.background = "#00ffc9";
+                a.style.background = "#5bdb6b";
                 break;
             case "64":
-                a.style.background = "#00c6ff";
+                a.style.background = "#5edaf5";
                 break;
             case "128":
-                a.style.background = "#004eff";
+                a.style.background = "#4e6bd6";
                 break;
             case "256":
-                a.style.background = "#6200ff";
+                a.style.background = "#cfa9fb";
                 break;
             case "512":
-                a.style.background = "#d500ff";
+                a.style.background = "#af46cf";
                 break;
             case "1024":
-                a.style.background = "#ff00b1";
+                a.style.background = "#ed5ae5";
                 break;
             case "2048":
                 a.style.background = "linear-gradient(90deg, rgba(254,255,0,1) 0%, rgba(255,0,0,1) 100%)";
@@ -57,9 +88,28 @@ function colors() {
     });
 }
 
+function checkPrevGame() {
+    if (localStorage.getItem("startPosition")) {
+        for (let i = 0; i < 16; i++) {
+            tiles[i].textContent = JSON.parse(localStorage.getItem("startPosition"))[i];
+            highScoreValue = +localStorage.getItem("highScore");
+            highScore.textContent = highScoreValue;
+            scoreValue = +localStorage.getItem("score");
+            score.textContent = scoreValue;
+            colors();
+        }
+    } else {
+        firstInit();
+    }
+}
+
+checkPrevGame();
+
 function firstInit() {
     let random = Math.floor(Math.random() * 15);
     let random2 = Math.floor(Math.random() * 16);
+
+    highScore.textContent = localStorage.getItem("highScore");
 
     if (random === random2) {
         random2++;
@@ -77,10 +127,10 @@ function firstInit() {
         }
     });
 
+    setStartingPosition();
     colors();
+    recordOne();
 }
-
-firstInit();
 
 function randomNumber() {
     let random = Math.floor(Math.random() * 16);
@@ -101,6 +151,23 @@ function randomNumber() {
     });
 }
 
+function setScore() {
+    if (scoreValue >= Number(localStorage.getItem("highScore"))) {
+        highScoreValue = scoreValue;
+        highScore.textContent = highScoreValue;
+        localStorage.setItem("highScore", highScoreValue);
+    }
+    localStorage.setItem("score", scoreValue);
+}
+
+function setStartingPosition() {
+    tiles.forEach(a => {
+        arrThree.push(a.textContent);
+    });
+    localStorage.setItem("startPosition", JSON.stringify(arrThree));
+    arrThree = [];
+}
+
 function moveLeft(a) {
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
@@ -113,8 +180,8 @@ function moveLeft(a) {
                 //     a[j].classList.remove("scaleSum");
                 // }, 500);
 
-                highScoreValue += +a[j].textContent;
-                highScore.textContent = `${highScoreValue}`;
+                scoreValue += +a[j].textContent;
+                score.textContent = `${scoreValue}`;
             } 
             else if (a[j].textContent.trim() === "") {
                 // setTimeout(() => {
@@ -133,10 +200,9 @@ function moveUp(a) {
                 a[j].textContent = a[j + 1].textContent * 2;
                 a[j + 1].textContent = "";
 
-                highScoreValue += +a[j].textContent;
-                highScore.textContent = `${highScoreValue}`;
-            } 
-            else if (a[j].textContent.trim() === "") {
+                scoreValue += +a[j].textContent;
+                score.textContent = `${scoreValue}`;
+            } else if (a[j].textContent.trim() === "") {
                 a[j].textContent = a[j + 1].textContent;
                 a[j + 1].textContent = "";
             }
@@ -151,8 +217,8 @@ function moveDown(a) {
                 a[j].textContent = a[j - 1].textContent * 2;
                 a[j - 1].textContent = "";
 
-                highScoreValue += +a[j].textContent;
-                highScore.textContent = `${highScoreValue}`;
+                scoreValue += +a[j].textContent;
+                score.textContent = `${scoreValue}`;
             } else if (a[j].textContent.trim() === "") {
                 a[j].textContent = a[j - 1].textContent;
                 a[j - 1].textContent = "";
@@ -168,8 +234,8 @@ function moveRight(a) {
                 a[j].textContent = a[j - 1].textContent * 2;
                 a[j - 1].textContent = "";
 
-                highScoreValue += +a[j].textContent;
-                highScore.textContent = `${highScoreValue}`;
+                scoreValue += +a[j].textContent;
+                score.textContent = `${scoreValue}`;
             } else if (a[j].textContent.trim() === "") {
                 a[j].textContent = a[j - 1].textContent;
                 a[j - 1].textContent = "";
@@ -206,39 +272,82 @@ function moveDownAll() {
     moveDown(vertical4);
 }
 
+function recordOne() {
+    tiles.forEach(a => {
+        arrOne.push(a.textContent);
+    });
+}
+
+function recordTwo() {
+    tiles.forEach(a => {
+        arrTwo.push(a.textContent);
+    });
+}
+
 document.addEventListener("keydown", (e) => {
     if (e.code === "ArrowLeft") {
+        recordOne();
         moveLeftAll();
-        randomNumber();
+        setScore();
+        recordTwo();
+        if (JSON.stringify(arrOne) !== JSON.stringify(arrTwo)) {
+            randomNumber();
+        }
+        setStartingPosition();
         colors();
+        arrOne = [];
+        arrTwo = [];
     }
 });
 
 document.addEventListener("keydown", (e) => {
     if (e.code === "ArrowRight") {
+        recordOne();
         moveRightAll();
-        randomNumber();
+        setScore();
+        recordTwo();
+        if (JSON.stringify(arrOne) !== JSON.stringify(arrTwo)) {
+            randomNumber();
+        }
+        setStartingPosition();
         colors();
+        arrOne = [];
+        arrTwo = [];
     }
 });
 
 document.addEventListener("keydown", (e) => {
     if (e.code === "ArrowUp") {
+        recordOne();
         moveUpAll();
-        randomNumber();
+        setScore();
+        recordTwo();
+        if (JSON.stringify(arrOne) !== JSON.stringify(arrTwo)) {
+            randomNumber();
+        }
+        setStartingPosition();
         colors();
+        arrOne = [];
+        arrTwo = [];
     }
 });
 
 document.addEventListener("keydown", (e) => {
     if (e.code === "ArrowDown") {
+        recordOne();
         moveDownAll();
-        randomNumber();
+        setScore();
+        recordTwo();
+        if (JSON.stringify(arrOne) !== JSON.stringify(arrTwo)) {
+            randomNumber();
+        }
+        setStartingPosition();
         colors();
+        arrOne = [];
+        arrTwo = [];
     }
 });
 
 //animations
 //results
 //flare
-//random number fix
