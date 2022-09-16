@@ -14,7 +14,7 @@
             <div class="header__container">
                 <div class="header__text">Score:<br><span class="header__score">0</span></div>
     
-                <div class="header__button">New Game</div>
+                <div class="button button-newGame">New Game</div>
     
                 <div class="header__text">High-score:<br><span class="header__highscore">0</span></div>
             </div>
@@ -82,6 +82,32 @@
     
                 <div class="wrapper__tile-outer">
                     <div class="wrapper__tile vertical4 horizontal4"></div>
+                </div>
+            </div>
+
+            <div class="modal__win__overlay hide">
+                <div class="modal__win hide">
+                    <div class="modal__close" data-close>&times;</div>
+    
+                    <div class="modal__win__congrats">You won!</div>
+    
+                    <div>Score: <span class="modal__win__score">0</span></div>
+
+                    <div class="button button-continueGame">Continue</div>
+    
+                    <div class="button button-newGameNoConf">New Game</div>
+                </div>
+            </div>
+
+            <div class="modal__lose__overlay hide">
+                <div class="modal__lose hide">
+                    <div class="modal__close" data-close>&times;</div>
+    
+                    <div class="modal__lose__congrats">You lost...</div>
+    
+                    <div>Score: <span class="modal__score">0</span></div>
+    
+                    <div class="button button-newGameNoConf">New Game</div>
                 </div>
             </div>
         </div>
