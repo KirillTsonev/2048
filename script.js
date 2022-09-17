@@ -417,6 +417,7 @@ newGame.addEventListener("click", () => {
 
 confirmation.addEventListener("click", () => {
     localStorage.removeItem("checkVictoryResult");
+    localStorage.removeItem("checkLossResult");
     localStorage.removeItem("score");
     localStorage.removeItem("startPosition");
     checkVictoryResult = false;
@@ -433,6 +434,7 @@ confirmation.addEventListener("click", () => {
 newGameNoConf.forEach(a => {
     a.addEventListener("click", () => {
         localStorage.removeItem("checkVictoryResult");
+        localStorage.removeItem("checkLossResult");
         localStorage.removeItem("score");
         localStorage.removeItem("startPosition");
         checkVictoryResult = false;
