@@ -25,7 +25,7 @@ const modalLoseOverlay = document.querySelector(".modal__lose__overlay");
 const modalClose = document.querySelector(".modal__close");
 const modalWin = document.querySelector(".modal__win");
 const modalLose = document.querySelector(".modal__lose");
-const scoreModal = document.querySelector(".modal__score");
+const scoreModal = document.querySelectorAll(".modal__score");
 
 const newGame = document.querySelector(".button-newGame");
 const continueGame = document.querySelector(".button-continueGame");
@@ -136,7 +136,7 @@ function firstInit() {
             a.textContent = 2;
         }
     });
-
+    
     setStartingPosition();
     colors();
     recordOne();
@@ -268,17 +268,16 @@ function playGame(moveFunc) {
     moveFunc();
     setScore();
     recordTwo();
-    console.log(arrOne);
-    console.log(arrTwo);
-    determineLoss();
-    if (result.every(a => a === true) && tiles.every(a => a.textContent.trim() !== "")) {
-        loss();
-    }
     if (JSON.stringify(arrOne) !== JSON.stringify(arrTwo)) {
         randomNumber();
     }
+    determineLoss();
+    if (result.every(a => a === true) && result.length === 24 && tiles.every(a => a.textContent.trim() !== "")) {
+        loss();
+    }
     setStartingPosition();
     colors();
+    result = [];
     arrOne = [];
     arrTwo = [];
     tiles.forEach(a => {
@@ -333,7 +332,9 @@ function victory() {
         setTimeout(() => {
             showModal(modalWin, modalWinOverlay);
             modalCloseTriggers(modalWin, modalWinOverlay);
-            scoreModal.textContent = scoreValue;
+            scoreModal.forEach(a => {
+                a.textContent = scoreValue;
+            });
         }, 500);
     }
     checkVictoryResult = true;
@@ -342,42 +343,42 @@ function victory() {
 
 function determineLoss() {
     for (let i = 0; i < 3; i++) {
-        if (horizontal1[i] !== horizontal1[i + 1]) {
+        if (horizontal1[i].textContent !== horizontal1[i + 1].textContent) {
             result.push(true);
         }
     }
     for (let i = 0; i < 3; i++) {
-        if (horizontal2[i] !== horizontal2[i + 1]) {
+        if (horizontal2[i].textContent !== horizontal2[i + 1].textContent) {
             result.push(true);
         }
     }
     for (let i = 0; i < 3; i++) {
-        if (horizontal3[i] !== horizontal3[i + 1]) {
+        if (horizontal3[i].textContent !== horizontal3[i + 1].textContent) {
             result.push(true);
         }
     }
     for (let i = 0; i < 3; i++) {
-        if (horizontal4[i] !== horizontal4[i + 1]) {
+        if (horizontal4[i].textContent !== horizontal4[i + 1].textContent) {
             result.push(true);
         }
     }
     for (let i = 0; i < 3; i++) {
-        if (vertical1[i] !== vertical1[i + 1]) {
+        if (vertical1[i].textContent !== vertical1[i + 1].textContent) {
             result.push(true);
         }
     }
     for (let i = 0; i < 3; i++) {
-        if (vertical2[i] !== vertical2[i + 1]) {
+        if (vertical2[i].textContent !== vertical2[i + 1].textContent) {
             result.push(true);
         }
     }
     for (let i = 0; i < 3; i++) {
-        if (vertical3[i] !== vertical3[i + 1]) {
+        if (vertical3[i].textContent !== vertical3[i + 1].textContent) {
             result.push(true);
         }
     }
     for (let i = 0; i < 3; i++) {
-        if (vertical4[i] !== vertical4[i + 1]) {
+        if (vertical4[i].textContent !== vertical4[i + 1].textContent) {
             result.push(true);
         }
     }
@@ -388,10 +389,13 @@ function loss() {
         setTimeout(() => {
             showModal(modalLose, modalLoseOverlay);
             modalCloseTriggers(modalLose, modalLoseOverlay);
-            scoreModal.textContent = scoreValue;
+            scoreModal.forEach(a => {
+                a.textContent = scoreValue;
+            });
         }, 500);
     }
     checkLossResult = true;
+    localStorage.setItem("checkLossResult", checkLossResult);
 }
 
 /////////////////////
@@ -431,6 +435,7 @@ newGameNoConf.forEach(a => {
         localStorage.removeItem("score");
         localStorage.removeItem("startPosition");
         checkVictoryResult = false;
+        checkLossResult = false;
         scoreValue = 0;
         score.textContent = scoreValue;
         tiles.forEach(a => {
@@ -448,25 +453,25 @@ continueGame.addEventListener("click", () => {
 });
 
 document.addEventListener("keydown", (e) => {
-    if (e.code === "ArrowLeft") {
+    if (e.code === "ArrowLeft" || e.code === "KeyA") {
         playGame(moveLeftAll);
     }
 });
 
 document.addEventListener("keydown", (e) => {
-    if (e.code === "ArrowRight") {
+    if (e.code === "ArrowRight" || e.code === "KeyD") {
         playGame(moveRightAll);
     }
 });
 
 document.addEventListener("keydown", (e) => {
-    if (e.code === "ArrowUp") {
+    if (e.code === "ArrowUp" || e.code === "KeyW") {
         playGame(moveUpAll);
     }
 });
 
 document.addEventListener("keydown", (e) => {
-    if (e.code === "ArrowDown") {
+    if (e.code === "ArrowDown" || e.code === "KeyS") {
         playGame(moveDownAll);
     }
 });
