@@ -335,6 +335,7 @@ function victory() {
             scoreModal.forEach(a => {
                 a.textContent = scoreValue;
             });
+            checkLossResult = true;
         }, 500);
     }
     checkVictoryResult = true;
