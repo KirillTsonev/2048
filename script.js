@@ -474,9 +474,16 @@ let touchstartY = 0;
 let touchendX = 0;
 let touchendY = 0;
 
+function resetTouch() {
+    touchstartX = 0;
+    touchstartY = 0;
+    touchendX = 0;
+    touchendY = 0;
+}
+
 const gestureZone = document.querySelector('.wrapper');
 
-document.body.addEventListener("touchmove", (e) => {
+gestureZone.addEventListener("touchmove", (e) => {
     e.preventDefault();
 })
 
@@ -494,17 +501,21 @@ gestureZone.addEventListener('touchend', (e) => {
 function handleGesture() {
     if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > 75) {
         playGame(moveLeftAll);
+        resetTouch();
     }
     
     if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > 75) {
         playGame(moveRightAll);
+        resetTouch();
     }
     
     if (touchendY < touchstartY && Math.abs(touchendY - touchstartY) > 75) {
         playGame(moveUpAll);
+        resetTouch();
     }
     
     if (touchendY > touchstartY && Math.abs(touchendY - touchstartY) > 75) {
         playGame(moveDownAll);
+        resetTouch();
     }
 }
