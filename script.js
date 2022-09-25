@@ -487,6 +487,22 @@ gestureZone.addEventListener("touchmove", (e) => {
     e.preventDefault();
 })
 
+container.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+})
+
+window.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+})
+
+document.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+})
+
+document.body.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+})
+
 gestureZone.addEventListener('touchstart', (e) => {
     touchstartX = e.changedTouches[0].screenX;
     touchstartY = e.changedTouches[0].screenY;

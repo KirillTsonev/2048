@@ -24,7 +24,6 @@
 	background-size: 400% 400%;
 	animation: gradient 60s linear infinite;
     padding-top: 30px;
-    overflow: hidden;
 }
 
 .header__container {
@@ -59,7 +58,6 @@
     color: rgb(239, 226, 226);
     text-align: center;
     font-weight: bold;
-    user-select: none;
 }
 
 .button {
