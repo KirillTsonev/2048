@@ -139,7 +139,6 @@ function firstInit() {
     
     setStartingPosition();
     colors();
-    recordOne();
 }
 
 function randomNumber() {
@@ -167,6 +166,7 @@ function setScore() {
         highScore.textContent = highScoreValue;
         localStorage.setItem("highScore", highScoreValue);
     }
+
     localStorage.setItem("score", scoreValue);
 }
 
@@ -338,51 +338,28 @@ function victory() {
             checkLossResult = true;
         }, 500);
     }
+
     checkVictoryResult = true;
     localStorage.setItem("checkVictoryResult", checkVictoryResult);
 }
 
+function determineEachLoss(selector) {
+    for (let i = 0; i < 3; i++) {
+        if (selector[i].textContent !== selector[i + 1].textContent) {
+            result.push(true);
+        }
+    }
+}
+
 function determineLoss() {
-    for (let i = 0; i < 3; i++) {
-        if (horizontal1[i].textContent !== horizontal1[i + 1].textContent) {
-            result.push(true);
-        }
-    }
-    for (let i = 0; i < 3; i++) {
-        if (horizontal2[i].textContent !== horizontal2[i + 1].textContent) {
-            result.push(true);
-        }
-    }
-    for (let i = 0; i < 3; i++) {
-        if (horizontal3[i].textContent !== horizontal3[i + 1].textContent) {
-            result.push(true);
-        }
-    }
-    for (let i = 0; i < 3; i++) {
-        if (horizontal4[i].textContent !== horizontal4[i + 1].textContent) {
-            result.push(true);
-        }
-    }
-    for (let i = 0; i < 3; i++) {
-        if (vertical1[i].textContent !== vertical1[i + 1].textContent) {
-            result.push(true);
-        }
-    }
-    for (let i = 0; i < 3; i++) {
-        if (vertical2[i].textContent !== vertical2[i + 1].textContent) {
-            result.push(true);
-        }
-    }
-    for (let i = 0; i < 3; i++) {
-        if (vertical3[i].textContent !== vertical3[i + 1].textContent) {
-            result.push(true);
-        }
-    }
-    for (let i = 0; i < 3; i++) {
-        if (vertical4[i].textContent !== vertical4[i + 1].textContent) {
-            result.push(true);
-        }
-    }
+    determineEachLoss(horizontal1)
+    determineEachLoss(horizontal2)
+    determineEachLoss(horizontal3)
+    determineEachLoss(horizontal4)
+    determineEachLoss(vertical1)
+    determineEachLoss(vertical2)
+    determineEachLoss(vertical3)
+    determineEachLoss(vertical4)
 }
 
 function loss() {
@@ -395,6 +372,7 @@ function loss() {
             });
         }, 500);
     }
+
     checkLossResult = true;
     localStorage.setItem("checkLossResult", checkLossResult);
 }
