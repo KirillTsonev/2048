@@ -28,25 +28,39 @@
 
 .header__container {
     width: 700px;
-    font-size: 25px;
-    text-align: center;
     height: 100px;
     display: flex;
     justify-content: space-around;
     align-items: center;
     margin: 0 auto;
     background-color: rgba(0, 0, 0, .8);
-    font-weight: bold;
     border-radius: 10px;
-    color: rgb(239, 226, 226);
 }
 
 .header__text {
     width: 25%;
     text-align: center;
+    color: rgb(239, 226, 226);
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
 }
 
-.button, .header__confirmation {
+.header__help {
+    border: 5px solid rgb(239, 226, 226);
+    padding: 5px;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    font-size: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    color: rgb(239, 226, 226);
+    text-align: center;
+    font-weight: bold;
+}
+
+.button {
     background-color: rgb(189, 73, 73);
     cursor: pointer;
     height: 50px;
@@ -55,11 +69,18 @@
     border-radius: 10px;
     line-height: 50px;
     color: rgb(239, 226, 226);
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.header__confirmation {
+    background-color: rgb(77, 197, 85);
 }
 
 .button:hover {
-    background-color: rgb(58, 148, 64);
-    transition: all .5s;
+    background-color: rgb(77, 197, 85);
+    transition: all .3s;
 }
 
 .wrapper {
@@ -102,7 +123,7 @@
 }
 
 .modalOverlayAppear {
-    animation: modalOverlayAppear 2s 1;
+    animation: modalOverlayAppear 1s 1;
 }
 
 @keyframes modalOverlayDisappear {
@@ -115,10 +136,10 @@
 }
 
 .modalOverlayDisappear {
-    animation: modalOverlayDisappear 2s 1;
+    animation: modalOverlayDisappear 1s 1;
 }
 
-.modal__win__overlay, .modal__lose__overlay {
+.modal__win__overlay, .modal__lose__overlay, .modal__help__overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -139,7 +160,7 @@
 }
 
 .modalAppear {
-    animation: modalAppear 2s 1;
+    animation: modalAppear 1s 1;
 }
 
 @keyframes modalDisappear {
@@ -154,7 +175,7 @@
 }
 
 .modalDisappear {
-    animation: modalDisappear 2s 1;
+    animation: modalDisappear 1s 1;
 }
 
 .modal__win, .modal__lose {
@@ -173,6 +194,32 @@
     align-items: center;
     justify-content: space-between;
     border-radius: 10px;
+}
+
+.modal__help {
+    position: absolute;
+    background-color: whitesmoke;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    top: calc(50% - 150px);
+    left: calc(50% - 150px);
+    padding: 15px;
+    text-align: center;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+}
+
+.modal__help__header {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.modal__help__desc {
+    font-size: 20px;
+    padding: 10px;
 }
 
 .modal__close {
@@ -247,4 +294,73 @@
     animation-name: scaleSum;
     animation-duration: .7s;
     animation-iteration-count: 1;
+}
+
+@media (max-width: 1200px) {
+
+}
+
+@media (max-width: 991px) {
+
+}
+
+@media (max-width: 767px) {
+    .header__container {
+        width: 500px;
+    }
+
+    .header__text {
+        font-size: 20px;
+    }
+
+    .header__help {
+        font-size: 20px;
+        border: 3px solid rgb(239, 226, 226);
+        line-height: 25px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .button {
+        font-size: 20px;
+        width: 140px;
+    }
+}
+
+@media (max-width: 575px) {
+    .header__container {
+        display: grid;
+        grid-template: 50px 50px / 150px 150px;
+        width: 300px;
+        height: 100px;
+        justify-items: center;
+    }
+
+    .header__text {
+        width: 150px;
+    }
+
+    .button {
+        width: 140px;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .wrapper {
+        height: 300px;
+        width: 300px;
+        margin: 50px auto;
+        grid-template: repeat(4, 60px) / repeat(4, 60px);
+    }
+    
+    .wrapper__tile-outer {
+        height: 60px;
+        width: 60px;
+    }
+        
+    .wrapper__tile {
+        height: 60px;
+        width: 60px;
+        line-height: 60px;
+    }
 }

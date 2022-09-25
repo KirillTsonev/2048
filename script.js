@@ -37,7 +37,7 @@ let arrThree = [];
 let result = [];
 
 const confirmation = document.createElement("div");
-confirmation.classList.add("header__confirmation");
+confirmation.classList.add("header__confirmation", "button");
 confirmation.textContent = "Are you sure?";
 
 let checkVictoryResult = false;
@@ -49,6 +49,16 @@ let checkLossResult = false;
 if (localStorage.getItem("checkLossResult")) {
     checkLossResult = localStorage.getItem("checkLossResult");
 }
+
+const help = document.querySelector(".header__help");
+const modalHelp = document.querySelector(".modal__help");
+const modalHelpOverlay = document.querySelector(".modal__help__overlay");
+
+let touchstartX = 0;
+let touchstartY = 0;
+let touchendX = 0;
+let touchendY = 0;
+const gestureZone = document.querySelector('.container');
 
 ///////////////
 // Functions //
@@ -287,42 +297,42 @@ function playGame(moveFunc) {
     });
 }
 
-function showModal (selectorVictory, selectorOverlay) {
-    selectorVictory.classList.add("show");
+function showModal(selector, selectorOverlay) {
+    selector.classList.add("show");
     selectorOverlay.classList.add("show");
-    selectorVictory.classList.remove("hide");
+    selector.classList.remove("hide");
     selectorOverlay.classList.remove("hide");
-    selectorVictory.classList.add("modalAppear");
+    selector.classList.add("modalAppear");
     selectorOverlay.classList.add("modalOverlayAppear");
     setTimeout(() => {
-        selectorVictory.classList.remove("modalAppear");
+        selector.classList.remove("modalAppear");
         selectorOverlay.classList.remove("modalOverlayAppear");
-    }, 2500);
+    }, 1500);
 }
 
-function hideModal (selectorVictory, selectorOverlay) {
-    selectorVictory.classList.add("modalDisappear");
+function hideModal(selector, selectorOverlay) {
+    selector.classList.add("modalDisappear");
     selectorOverlay.classList.add("modalOverlayDisappear");
     setTimeout(() => {
-        selectorVictory.classList.remove("modalDisappear");
+        selector.classList.remove("modalDisappear");
         selectorOverlay.classList.remove("modalOverlayDisappear");
-        selectorVictory.classList.remove("show");
+        selector.classList.remove("show");
         selectorOverlay.classList.remove("show");
-        selectorVictory.classList.add("hide");
+        selector.classList.add("hide");
         selectorOverlay.classList.add("hide");
-    }, 2000);
+    }, 1000);
 }
 
-function modalCloseTriggers(selectorVictory, selectorOverlay) {
+function modalCloseTriggers(selector, selectorOverlay) {
     selectorOverlay.addEventListener("click", (e) => {
         if (e.target === selectorOverlay || e.target.getAttribute("data-close") === "") {
-            hideModal(selectorVictory, selectorOverlay);
+            hideModal(selector, selectorOverlay);
         }
     });
 
     document.addEventListener("keydown", (e) => {
-        if (e.code === "Escape" && !selectorVictory.classList.contains("hide")) {
-            hideModal(selectorVictory, selectorOverlay);
+        if (e.code === "Escape" && !selector.classList.contains("hide")) {
+            hideModal(selectoy, selectorOverlay);
         }
     });
 }
@@ -377,9 +387,32 @@ function loss() {
     localStorage.setItem("checkLossResult", checkLossResult);
 }
 
+function handleGesture() {
+    if (touchendX < touchstartX) {
+        playGame(moveLeftAll);
+    }
+    
+    if (touchendX > touchstartX) {
+        playGame(moveRightAll);
+    }
+    
+    if (touchendY < touchstartY) {
+        playGame(moveUpAll);
+    }
+    
+    if (touchendY > touchstartY) {
+        playGame(moveDownAll);
+    }
+}
+
 /////////////////////
 // Event Listeners //
 /////////////////////
+
+help.addEventListener("click", () => {
+    showModal(modalHelp, modalHelpOverlay);
+    modalCloseTriggers(modalHelp, modalHelpOverlay)
+})
 
 newGame.addEventListener("click", () => {
     newGame.replaceWith(confirmation);
@@ -388,9 +421,6 @@ newGame.addEventListener("click", () => {
             confirmation.replaceWith(newGame);
         }
     });
-    setTimeout(() => {
-        confirmation.replaceWith(newGame);
-    }, 1300);
 });
 
 confirmation.addEventListener("click", () => {
@@ -456,6 +486,17 @@ document.addEventListener("keydown", (e) => {
         playGame(moveDownAll);
     }
 });
+
+gestureZone.addEventListener('touchstart', (e) => {
+    touchstartX = e.changedTouches[0].screenX;
+    touchstartY = e.changedTouches[0].screenY;
+}, false);
+
+gestureZone.addEventListener('touchend', (e) => {
+    touchendX = e.changedTouches[0].screenX;
+    touchendY = e.changedTouches[0].screenY;
+    handleGesture();
+}, false); 
 
 ////////////////////
 // Function Calls //
