@@ -499,22 +499,22 @@ gestureZone.addEventListener('touchend', (e) => {
 }, false); 
 
 function handleGesture() {
-    if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > 75) {
+    if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > 50 && Math.abs(touchendX - touchstartX) > Math.abs(touchendY - touchstartY)) {
         playGame(moveLeftAll);
         resetTouch();
     }
     
-    if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > 75) {
+    if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > 50 && Math.abs(touchendX - touchstartX) > Math.abs(touchendY - touchstartY)) {
         playGame(moveRightAll);
         resetTouch();
     }
     
-    if (touchendY < touchstartY && Math.abs(touchendY - touchstartY) > 75) {
+    if (touchendY < touchstartY && Math.abs(touchendY - touchstartY) > 50 && Math.abs(touchendY - touchstartY) > Math.abs(touchendX - touchstartX)) {
         playGame(moveUpAll);
         resetTouch();
     }
     
-    if (touchendY > touchstartY && Math.abs(touchendY - touchstartY) > 75) {
+    if (touchendY > touchstartY && Math.abs(touchendY - touchstartY) > 50 && Math.abs(touchendY - touchstartY) > Math.abs(touchendX - touchstartX)) {
         playGame(moveDownAll);
         resetTouch();
     }
