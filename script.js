@@ -58,7 +58,7 @@ let touchstartX = 0;
 let touchstartY = 0;
 let touchendX = 0;
 let touchendY = 0;
-const gestureZone = document.querySelector('.container');
+const gestureZone = document.querySelector('.wrapper');
 
 ///////////////
 // Functions //
