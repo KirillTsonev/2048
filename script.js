@@ -54,12 +54,6 @@ const help = document.querySelector(".header__help");
 const modalHelp = document.querySelector(".modal__help");
 const modalHelpOverlay = document.querySelector(".modal__help__overlay");
 
-let touchstartX = 0;
-let touchstartY = 0;
-let touchendX = 0;
-let touchendY = 0;
-const gestureZone = document.querySelector('.wrapper');
-
 ///////////////
 // Functions //
 ///////////////
@@ -387,24 +381,6 @@ function loss() {
     localStorage.setItem("checkLossResult", checkLossResult);
 }
 
-function handleGesture() {
-    if (touchendX < touchstartX) {
-        playGame(moveLeftAll);
-    }
-    
-    if (touchendX > touchstartX) {
-        playGame(moveRightAll);
-    }
-    
-    if (touchendY < touchstartY) {
-        playGame(moveUpAll);
-    }
-    
-    if (touchendY > touchstartY) {
-        playGame(moveDownAll);
-    }
-}
-
 /////////////////////
 // Event Listeners //
 /////////////////////
@@ -487,21 +463,48 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
-gestureZone.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    touchstartX = e.changedTouches[0].screenX;
-    touchstartY = e.changedTouches[0].screenY;
-}, false);
-
-gestureZone.addEventListener('touchend', (e) => {
-    e.preventDefault();
-    touchendX = e.changedTouches[0].screenX;
-    touchendY = e.changedTouches[0].screenY;
-    handleGesture();
-}, false); 
-
 ////////////////////
 // Function Calls //
 ////////////////////
 
 checkPrevGame();
+
+let touchstartX = 0;
+let touchstartY = 0;
+let touchendX = 0;
+let touchendY = 0;
+
+const gestureZone = document.querySelector('.wrapper');
+
+window.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+})
+
+gestureZone.addEventListener('touchstart', (e) => {
+    touchstartX = e.changedTouches[0].screenX;
+    touchstartY = e.changedTouches[0].screenY;
+}, false);
+
+gestureZone.addEventListener('touchend', (e) => {
+    touchendX = e.changedTouches[0].screenX;
+    touchendY = e.changedTouches[0].screenY;
+    handleGesture();
+}, false); 
+
+function handleGesture() {
+    if (touchendX / 2 < touchstartX) {
+        playGame(moveLeftAll);
+    }
+    
+    if (touchendX / 2> touchstartX) {
+        playGame(moveRightAll);
+    }
+    
+    if (touchendY / 2 < touchstartY) {
+        playGame(moveUpAll);
+    }
+    
+    if (touchendY / 2> touchstartY) {
+        playGame(moveDownAll);
+    }
+}
