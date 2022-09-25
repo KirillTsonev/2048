@@ -54,6 +54,12 @@ const help = document.querySelector(".header__help");
 const modalHelp = document.querySelector(".modal__help");
 const modalHelpOverlay = document.querySelector(".modal__help__overlay");
 
+let touchstartX = 0;
+let touchstartY = 0;
+let touchendX = 0;
+let touchendY = 0;
+const gestureZone = document.querySelector('.wrapper');
+
 ///////////////
 // Functions //
 ///////////////
@@ -381,6 +387,35 @@ function loss() {
     localStorage.setItem("checkLossResult", checkLossResult);
 }
 
+function resetTouch() {
+    touchstartX = 0;
+    touchstartY = 0;
+    touchendX = 0;
+    touchendY = 0;
+}
+
+function handleGesture() {
+    if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > 50 && Math.abs(touchendX - touchstartX) > Math.abs(touchendY - touchstartY)) {
+        playGame(moveLeftAll);
+        resetTouch();
+    }
+    
+    if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > 50 && Math.abs(touchendX - touchstartX) > Math.abs(touchendY - touchstartY)) {
+        playGame(moveRightAll);
+        resetTouch();
+    }
+    
+    if (touchendY < touchstartY && Math.abs(touchendY - touchstartY) > 50 && Math.abs(touchendY - touchstartY) > Math.abs(touchendX - touchstartX)) {
+        playGame(moveUpAll);
+        resetTouch();
+    }
+    
+    if (touchendY > touchstartY && Math.abs(touchendY - touchstartY) > 50 && Math.abs(touchendY - touchstartY) > Math.abs(touchendX - touchstartX)) {
+        playGame(moveDownAll);
+        resetTouch();
+    }
+}
+
 /////////////////////
 // Event Listeners //
 /////////////////////
@@ -463,75 +498,23 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
-////////////////////
-// Function Calls //
-////////////////////
-
-checkPrevGame();
-
-let touchstartX = 0;
-let touchstartY = 0;
-let touchendX = 0;
-let touchendY = 0;
-
-function resetTouch() {
-    touchstartX = 0;
-    touchstartY = 0;
-    touchendX = 0;
-    touchendY = 0;
-}
-
-const gestureZone = document.querySelector('.container');
-
-// gestureZone.addEventListener("touchmove", (e) => {
-//     e.preventDefault();
-// })
-
-// container.addEventListener("touchmove", (e) => {
-//     e.preventDefault();
-// })
-
-// window.addEventListener("touchmove", (e) => {
-//     e.preventDefault();
-// })
-
 document.addEventListener("touchmove", (e) => {
     e.preventDefault();
 })
 
-// document.body.addEventListener("touchmove", (e) => {
-//     e.preventDefault();
-// })
-
 gestureZone.addEventListener('touchstart', (e) => {
     touchstartX = e.changedTouches[0].screenX;
     touchstartY = e.changedTouches[0].screenY;
-}, false);
+});
 
 gestureZone.addEventListener('touchend', (e) => {
     touchendX = e.changedTouches[0].screenX;
     touchendY = e.changedTouches[0].screenY;
     handleGesture();
-}, false); 
+}); 
 
-function handleGesture() {
-    if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > 50 && Math.abs(touchendX - touchstartX) > Math.abs(touchendY - touchstartY)) {
-        playGame(moveLeftAll);
-        resetTouch();
-    }
-    
-    if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > 50 && Math.abs(touchendX - touchstartX) > Math.abs(touchendY - touchstartY)) {
-        playGame(moveRightAll);
-        resetTouch();
-    }
-    
-    if (touchendY < touchstartY && Math.abs(touchendY - touchstartY) > 50 && Math.abs(touchendY - touchstartY) > Math.abs(touchendX - touchstartX)) {
-        playGame(moveUpAll);
-        resetTouch();
-    }
-    
-    if (touchendY > touchstartY && Math.abs(touchendY - touchstartY) > 50 && Math.abs(touchendY - touchstartY) > Math.abs(touchendX - touchstartX)) {
-        playGame(moveDownAll);
-        resetTouch();
-    }
-}
+////////////////////
+// Function Calls //
+////////////////////
+
+checkPrevGame();
