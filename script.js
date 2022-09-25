@@ -488,11 +488,13 @@ document.addEventListener("keydown", (e) => {
 });
 
 gestureZone.addEventListener('touchstart', (e) => {
+    e.preventDefault();
     touchstartX = e.changedTouches[0].screenX;
     touchstartY = e.changedTouches[0].screenY;
 }, false);
 
 gestureZone.addEventListener('touchend', (e) => {
+    e.preventDefault();
     touchendX = e.changedTouches[0].screenX;
     touchendY = e.changedTouches[0].screenY;
     handleGesture();
