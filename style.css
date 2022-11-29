@@ -23,7 +23,27 @@
     background: linear-gradient(90deg, rgb(255, 129, 129) 14%, rgb(255, 208, 127) 28%, rgb(253, 255, 131) 42%, rgb(134, 255, 140) 56%, rgb(133, 255, 239) 70%, rgb(134, 140, 255) 84%, rgb(247, 133, 255) 100%);
 	background-size: 400% 400%;
 	animation: gradient 60s linear infinite;
-    padding-top: 30px;
+    padding-top: 40px;
+}
+
+.mainHeading {
+    font-size: 66px;
+    text-align: center;
+    line-height: 66px;
+    text-shadow: 1px 1px 1px #ffffff,
+             2px 2px 1px #e3e3e3,
+             3px 3px 1px #c0c0c0,
+             4px 4px 1px #a0a0a0,
+             5px 5px 1px #878787,
+             6px 6px 1px #7c7c7c,
+             7px 7px 1px #616161,
+             8px 8px 1px #5f5f5f,
+             9px 9px 1px #525252,
+             10px 10px 1px #404040,
+             1px 10px 5px rgba(16, 16, 16, 0.5),
+             1px 15px 10px rgba(16, 16, 16, 0.4),
+             1px 20px 30px rgba(16, 16, 16, 0.3),
+             1px 25px 50px rgba(16, 16, 16, 0.2);
 }
 
 .header__container {
@@ -32,7 +52,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin: 0 auto;
+    margin: 40px auto 0 auto;
     background-color: rgba(0, 0, 0, .8);
     border-radius: 10px;
 }
